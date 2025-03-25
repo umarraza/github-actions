@@ -15,33 +15,33 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 8.4
+        php-version: 8.3  # 🔹 Use correct PHP version
 
     - name: Install Composer Dependencies
       run: composer install --optimize-autoloader --no-dev --no-progress --no-interaction --prefer-dist
 
-    - name: Install Node
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '22'
+        node-version: 20  # 🔹 Use stable LTS version
 
     - name: Install NPM Dependencies
-      run: npm install
+      run: npm ci  # 🔹 Faster & more reliable than `npm install`
 
-    - name: Build NPM Assets
+    - name: Build Frontend Assets
       run: npm run build
 
     - name: Synchronize Files To Server
       uses: easingthemes/ssh-deploy@v5.1.0
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SOURCE: "."
+        SOURCE: "."  # 🔹 Only sync built assets
         REMOTE_HOST: ${{ secrets.VPS_HOST }}
         REMOTE_USER: ${{ secrets.VPS_USER }}
-        TARGET: "/home/u890207559/public_html"
-        REMOTE_PORT: "65002"  # 🔹 Add the correct SSH port
+        TARGET: "/home/u890207559/public_html/public/build"
+        REMOTE_PORT: "65002"
 
-    - name: Run Remote/Artisan Commands
+    - name: Deploy Application via SSH
       uses: appleboy/ssh-action@v1.2.2
       with:
         host: ${{ secrets.VPS_HOST }}
@@ -50,10 +50,8 @@ jobs:
         port: 65002
         script: |
             cd /home/u890207559/public_html
-            npm install
-            npm run build
             php artisan config:clear
             php artisan route:clear
             php artisan view:clear
             php artisan cache:clear
-  
+            php artisan migrate --force
