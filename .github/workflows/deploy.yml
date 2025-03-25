@@ -44,12 +44,16 @@ jobs:
     - name: Run Remote/Artisan Commands
       uses: appleboy/ssh-action@v1.2.2
       with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 65002  # 🔹 Specify the correct SSH port
-          script: |
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 65002
+        script: |
             cd /home/u890207559/public_html
-            php artisan migrate --force
-            php artisan optimize
+            npm install
+            npm run build
+            php artisan config:clear
+            php artisan route:clear
+            php artisan view:clear
+            php artisan cache:clear
   
