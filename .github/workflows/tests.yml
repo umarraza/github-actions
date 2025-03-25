@@ -46,9 +46,6 @@ jobs:
       - name: Publish Ziggy Configuration
         run: php artisan ziggy:generate
 
-      - name: Download Frontend Build
-        uses: actions/download-artifact@v3
-
       - name: Build Assets
         run: npm run build
 
