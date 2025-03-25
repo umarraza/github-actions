@@ -7,6 +7,10 @@ import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+    build: {
+        outDir: 'public/build', // Force build output to public/build
+        emptyOutDir: true, // Ensure the folder is cleared before each build
+    },
     plugins: [
         laravel({
             input: ['resources/js/app.ts'],
@@ -21,6 +25,7 @@ export default defineConfig({
                 },
             },
         }),
+        
     ],
     resolve: {
         alias: {
