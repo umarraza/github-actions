@@ -38,7 +38,7 @@ jobs:
         path: public/build
 
     - name: Synchronize Files To Server
-      uses: easingthemes/ssh-deploy@v5.1.0
+      uses: easingthemes/ssh-deploy@v4.6.2
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         SOURCE: "."  # 🔹 Only sync built assets
