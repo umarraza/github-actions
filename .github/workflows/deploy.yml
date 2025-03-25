@@ -39,6 +39,7 @@ jobs:
         REMOTE_HOST: ${{ secrets.VPS_HOST }}
         REMOTE_USER: ${{ secrets.VPS_USER }}
         TARGET: "/home/u890207559/public_html"
+        REMOTE_PORT: "65002"  # 🔹 Add the correct SSH port
 
     - name: Run Remote/Artisan Commands
       uses: appleboy/ssh-action@v1.2.2
