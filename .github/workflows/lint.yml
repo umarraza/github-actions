@@ -38,6 +38,15 @@ jobs:
       - name: Lint Frontend
         run: npm run lint
 
+      - name: Build Frontend Assets
+        run: npm run build  # This generates the missing `public/build/manifest.json`
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-build
+          path: public/build
+
       # - name: Commit Changes
       #   uses: stefanzweifel/git-auto-commit-action@v5
       #   with:
